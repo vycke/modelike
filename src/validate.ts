@@ -1,33 +1,42 @@
 import get from './get';
 
-function exists(value) {
+type Primitive = number | string | boolean | object;
+type Message = string;
+type ValidationErrors = { [key: string]: string };
+
+type Rule = {
+  type: string;
+  required?: boolean;
+  message?: Message;
+  rule?(v: Primitive): boolean;
+  each?: Rule;
+};
+
+export type ValidationSchema = {
+  [key: string]: Rule;
+};
+
+function exists(value: Primitive): boolean {
   return value !== undefined && value !== null;
 }
 
-export function isDefault(value) {
-  const type = typeof value;
+export default function(
+  obj: object,
+  schema: ValidationSchema
+): ValidationErrors {
+  const errors: ValidationErrors = {};
 
-  switch (type) {
-    case 'boolean':
-      return value === false;
-    case 'number':
-      return value === 0;
-    case 'string':
-      return value === '';
-    default:
-      return true;
+  function evaluate(key: string, value: Primitive, rule: Rule): void {
+    if (rule.required && !exists(value))
+      errors[key] = rule.message || 'required';
+    else if (typeof value !== rule.type) errors[key] = rule.message || 'type';
+    else if (rule.rule && !rule.rule(value))
+      errors[key] = rule.message || 'other';
   }
-}
 
-export default function(obj, schema) {
-  const errors = {};
-
-  Object.entries(schema).forEach(([k, v]) => {
-    const value = get(obj, k);
-
-    if (v.required && !exists(value)) errors[k] = v.message || 'required';
-    else if (v.type && typeof value !== v.type) errors[k] = v.message || 'type';
-    else if (v.rule && !v.rule(value)) errors[k] = v.message || 'errors';
+  Object.entries(schema).forEach(([key, rule]) => {
+    const value = get(obj, key);
+    evaluate(key, value, rule);
   });
 
   return errors;

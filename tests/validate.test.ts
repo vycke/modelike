@@ -1,4 +1,21 @@
-const { isDefault, default: validator } = require('../validator');
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import validator from '../src/validate';
+
+function isDefault(value): boolean {
+  const type = typeof value;
+
+  switch (type) {
+    case 'boolean':
+      return value === false;
+    case 'number':
+      return value === 0;
+    case 'string':
+      return value === '';
+    default:
+      return false;
+  }
+}
 
 const typeRule = {
   type: 'string'
@@ -18,13 +35,13 @@ const customMessageRule = {
 const withRulesRule = {
   type: 'string',
   required: true,
-  rule: (v) => !isDefault(v)
+  rule: (v: any) => !isDefault(v)
 };
 
 const withRulesRule2 = {
   type: 'string',
   required: true,
-  rule: (v) => !isDefault(v),
+  rule: (v: any) => !isDefault(v),
   message: 'This cannot be default'
 };
 
@@ -54,24 +71,13 @@ const input = {
 };
 
 describe('validator', () => {
-  it('isDefault', () => {
-    expect(isDefault('test')).toBe(false);
-    expect(isDefault('')).toBe(true);
-    expect(isDefault(0)).toBe(true);
-    expect(isDefault(1)).toBe(false);
-    expect(isDefault(-1)).toBe(false);
-    expect(isDefault(true)).toBe(false);
-    expect(isDefault(false)).toBe(true);
-    expect(isDefault({})).toBe(true);
-  });
-
-  it('validation', () => {
+  it('base validation', () => {
     expect(validator(input, config)).toEqual({
       type2: 'type',
       nonexisting: 'required',
       message: 'This is required',
       rule2: 'This cannot be default',
-      rule3: 'errors'
+      rule3: 'other'
     });
   });
 });

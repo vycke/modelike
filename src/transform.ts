@@ -1,4 +1,4 @@
-export default function transform(obj, schema) {
+export default function transform(obj, schema): object {
   if (!schema) return obj;
   if (Array.isArray(obj)) return obj.map((o) => transform(o, schema));
 

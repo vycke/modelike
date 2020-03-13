@@ -1,16 +1,23 @@
 import set from './set';
 import get from './get';
 
-export default function(obj, schema) {
+export type Deduction = {
+  source: string | string[];
+  target: string;
+  arrays?: string[];
+  reducer?: Function;
+};
+
+export default function deduce(obj: object, schema: Deduction[]): object {
   const newObj = {};
 
-  schema.forEach((rule) => {
-    let value;
-    if (Array.isArray(rule.source)) value = rule.source.map((s) => get(obj, s));
-    else value = get(obj, rule.source);
+  schema.forEach((d: Deduction) => {
+    let value = Array.isArray(d.source)
+      ? d.source.map((s: string) => get(obj, s))
+      : get(obj, d.source);
 
-    if (rule.reducer) value = rule.reducer(value);
-    set(newObj, rule.target, value);
+    if (d.reducer) value = d.reducer(value);
+    set(newObj, d.target, value);
   });
 
   return newObj;

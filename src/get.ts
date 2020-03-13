@@ -1,18 +1,12 @@
-// Gets the nested value based on a array of values indicating the path of the
-// object.
-// (e.g. getNestedObject(obj, ("user.info.address").split(".")))
-export const get = (obj, path = '', def = undefined) => {
-  if (!path) return obj;
+// Gets the nested value based on a tokenized string indicating the path of the
+// object.(e.g. get(obj, "user.info.address"))
+type Primitive = number | string | object | boolean;
+export default function(obj: object, path: string, def?: Primitive): Primitive {
+  if (!path || path === '') return obj;
+  const tokens = path.split('.');
 
-  let newPath = path;
-
-  if (typeof path === 'string') newPath = newPath.split('.');
-  else if (!Array.isArray(newPath) || newPath.length === 0 || newPath[0] === '')
-    return obj;
-  return newPath.reduce(
-    (o, k) => (o && typeof o[k] !== 'undefined' && o[k] !== null ? o[k] : def),
+  return tokens.reduce(
+    (o, k) => (o && o[k] !== undefined && o[k] !== null ? o[k] : def),
     obj
   );
-};
-
-export default get;
+}

@@ -1,4 +1,4 @@
-import set from '../set';
+import set from '../src/set';
 
 const obj = {
   first: { en: 'en1', nl: 'nl1' },
@@ -6,38 +6,30 @@ const obj = {
   third: { en: 'en3', nl: 'nl3' }
 };
 
-const path1 = 'first.en'.split('.');
-const path2 = 'fourth.nl'.split('.');
+const path1 = 'first.en';
+const path2 = 'fourth.nl';
 
 describe('nestedProperties', () => {
   it('advanced', () => {
-    set(obj, path1, 'yay');
-    set(obj, path2, 'yay');
+    set(obj, path1, 'en2');
+    set(obj, path2, 'nl4');
 
     expect(obj).toEqual({
-      first: { en: 'yay', nl: 'nl1' },
+      first: { en: 'en2', nl: 'nl1' },
       second: { en: 'en2', nl: 'nl2' },
       third: { en: 'en3', nl: 'nl3' },
-      fourth: { nl: 'yay' }
+      fourth: { nl: 'nl4' }
     });
 
-    set(obj, [], 'yay');
+    set(obj, '', '');
     expect(obj).toEqual({
-      first: { en: 'yay', nl: 'nl1' },
+      first: { en: 'en2', nl: 'nl1' },
       second: { en: 'en2', nl: 'nl2' },
       third: { en: 'en3', nl: 'nl3' },
-      fourth: { nl: 'yay' }
+      fourth: { nl: 'nl4' }
     });
 
-    set(obj, null, 'yay');
+    set(obj, '', '');
     expect(obj).toEqual(obj);
-
-    set(obj, path1.join('.'), 'yay');
-    expect(obj).toEqual({
-      first: 'yay',
-      second: { en: 'en2', nl: 'nl2' },
-      third: { en: 'en3', nl: 'nl3' },
-      fourth: { nl: 'yay' }
-    });
   });
 });
