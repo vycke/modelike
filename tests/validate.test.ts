@@ -45,9 +45,10 @@ const withRulesRule2 = {
   message: 'This cannot be default'
 };
 
-const config = {
+const flatConfig = {
   type1: typeRule,
   type2: typeRule,
+  type3: typeRule,
   required: requiredRule,
   nonexisting: requiredRule,
   message: customMessageRule,
@@ -57,7 +58,7 @@ const config = {
   'nested.value': typeRule
 };
 
-const input = {
+const flat = {
   type1: 'test',
   type2: 0,
   required: 'test',
@@ -70,14 +71,54 @@ const input = {
   }
 };
 
+const arrayRule = {
+  type: 'array',
+  required: true,
+  each: 'string'
+};
+
+const arrayObj = {
+  arr: ['test', 1]
+};
+
+const nestedArrayConfig = {
+  users: {
+    type: 'array',
+    each: { name: { type: 'string' }, id: { type: 'number', required: true } }
+  }
+};
+
+const nestedArray = {
+  users: [{ name: 'test', id: 1 }, { name: 'test' }]
+};
+
 describe('validator', () => {
   it('base validation', () => {
-    expect(validator(input, config)).toEqual({
+    expect(validator(flat, flatConfig)).toEqual({
       type2: 'type',
       nonexisting: 'required',
       message: 'This is required',
       rule2: 'This cannot be default',
       rule3: 'other'
+    });
+  });
+
+  it('array attribute validation', () => {
+    expect(validator({ arr: null }, { arr: arrayRule })).toEqual({
+      arr: 'required'
+    });
+    expect(validator(arrayObj, { arr: arrayRule })).toEqual({
+      arr: 'type'
+    });
+    expect(validator({ arr: ['name'] }, { arr: arrayRule })).toEqual({});
+  });
+
+  it('nested array validation', () => {
+    expect(validator(nestedArray, nestedArrayConfig)).toEqual({
+      'users.1.id': 'required'
+    });
+    expect(validator({ users: 'test' }, nestedArrayConfig)).toEqual({
+      users: 'type'
     });
   });
 });

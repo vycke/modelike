@@ -95,7 +95,7 @@ const denormalisationConfig = [
   {
     source: ['likes', 'users.likes'],
     target: 'users.likes',
-    reducer: (v) => console.log(v)
+    reducer: (v) => v
   }
 ];
 
