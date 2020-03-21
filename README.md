@@ -111,4 +111,3 @@ In addition, some simple helpers around objects are also present.
 
 - `get(obj, path, defaultValue = undefined)`: retrieves a value in a nested object, defined by its path. Optionally, the default value can be provided;
 - `set(obj, path, value)`: sets a value in a nested object defined by its path. If the structure of the object does not suffice, this function will make it so;
-- `filter(obj, schema)`: ..
