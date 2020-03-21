@@ -15,6 +15,5 @@ describe('nestedProperties', () => {
     expect(get(input, path2)).toBe(undefined);
     expect(get(input, path2, 'nl4')).toBe('nl4');
     expect(get(input, '')).toEqual(input);
-    expect(get(input)).toEqual(input);
   });
 });

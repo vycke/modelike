@@ -1,8 +1,7 @@
 import get from './get';
 import set from './set';
 import transform from './transform';
-import deduce from './deduce';
 import validate from './validate';
-import { flatten, unflatten } from './flatten';
+import { schema, normalize, denormalize } from './normalize';
 
-export { get, set, tranform, deduce, validate, flatten, unflatten };
+export { get, set, transform, validate, normalize, denormalize, schema };

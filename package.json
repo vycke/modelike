@@ -20,10 +20,10 @@
     "url": "git+https://github.com/kevtiq/schematiq.git"
   },
   "keywords": [
-    "error tracking",
-    "tracking",
-    "health",
-    "performance"
+    "validation",
+    "normalisation",
+    "deduction",
+    "transformation"
   ],
   "author": "Kevin Pennekamp <github@kevtiq.co>",
   "license": "MIT",
@@ -55,7 +55,6 @@
     "jest-localstorage-mock": "^2.4.0",
     "lint-staged": "^9.4.3",
     "prettier": "^1.19.1",
-    "rimraf": "^3.0.0",
     "ts-jest": "^24.2.0",
     "typescript": "^3.7.2"
   },

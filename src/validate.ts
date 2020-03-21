@@ -24,11 +24,11 @@ function message(rule: Rule, def: string): string {
 
 function evaluate(value: Primitive, rule: Rule): string | undefined {
   let error: string | undefined;
-  // attribute is required but does not exists
+  // property is required but does not exists
   if (rule.required && !exists(value)) error = message(rule, 'required');
   // no need to continue if the value does not exists
   else if (!exists(value)) return;
-  // attribute is of the wrong type, except for checking array types
+  // property is of the wrong type, except for checking array types
   else if (typeof value !== rule.type && rule.type !== 'array')
     error = message(rule, 'type');
   // type checking for arrays
@@ -39,7 +39,7 @@ function evaluate(value: Primitive, rule: Rule): string | undefined {
     (value as Array<Primitive>).some((v) => typeof v !== rule.each) &&
       (error = message(rule, 'type'));
   }
-  // attribute does not apply to custom rule
+  // property does not apply to custom rule
   else if (rule.rule && !rule.rule(value)) error = message(rule, 'other');
   return error;
 }
