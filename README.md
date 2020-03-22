@@ -12,19 +12,22 @@ A lightweight library that allows for object handling based on various schemas. 
 
 For object validation one defines rules for each property of the object. Combined, rules define the validation schema. Each rule must contain a `type`. Other settings are optional.
 
-```js
-type rule = {
-  type: 'string' | 'boolean' | 'number',
-  required?: false | true,
-  message?: 'my custom message',
-  rule?: (value) => false | true
+```ts
+type Rule = {
+  type: 'string' | 'boolean' | 'number' | 'array';
+  required?: boolean;
+  message?: 'my custom message';
+  regexp?: RegExp; // only available when type = 'string'
+  rule?: (value) => boolean;
+  each?: Schema; // required when type = 'array'
 };
 
-const schema = {
-  property: rule,
-  'nested.property': rule
+type Schema = {
+  [key: string]: Rule; // also for nested properties, e.g. "nested.property"
 };
 ```
+
+when
 
 An object can be validated by using the `validate` function of **schematiq**. It returns an object indicating which properties of the object have errors. It also indicates the type of error, unless you set a custom error message.
 

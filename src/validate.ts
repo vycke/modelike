@@ -8,7 +8,8 @@ type Rule = {
   required?: boolean;
   message?: string;
   rule?(v: Primitive): boolean;
-  each?: string | Schema;
+  regexp?: RegExp;
+  each?: Schema;
 };
 type Schema = TypedObject<Rule>;
 
@@ -32,13 +33,14 @@ function evaluate(value: Primitive, rule: Rule): string | undefined {
   else if (typeof value !== rule.type && rule.type !== 'array')
     error = message(rule, 'type');
   // type checking for arrays
-  else if (rule.type === 'array' && !Array.isArray(value))
+  else if (rule.type === 'array' && (!Array.isArray(value) || !rule.each))
     error = message(rule, 'type');
   // in case of primitives in the array, check them directly
-  else if (rule.type === 'array' && typeof rule.each === 'string') {
-    (value as Array<Primitive>).some((v) => typeof v !== rule.each) &&
-      (error = message(rule, 'type'));
-  }
+  else if (
+    rule.type === 'string' &&
+    rule.regexp?.test(value as string) === false
+  )
+    error = message(rule, 'format');
   // property does not apply to custom rule
   else if (rule.rule && !rule.rule(value)) error = message(rule, 'other');
   return error;
@@ -53,14 +55,12 @@ export default function validate(obj: object, schema: Schema): Errors {
     if (error) errors[key] = error;
     if (error || rule.type !== 'array' || !exists(value)) return;
 
-    // in case of nested objects in array, recursively call this function
-    if (typeof rule.each !== 'string')
-      (value as Array<object>).forEach((v, i) => {
-        const nestedErrors = validate(v, rule.each as Schema);
-        Object.entries(nestedErrors).forEach(
-          ([k, e]) => (errors[`${key}.${i}.${k}`] = e)
-        );
-      });
+    (value as Array<object>).forEach((v, i) => {
+      const nestedErrors = validate(v, rule.each as Schema);
+      Object.entries(nestedErrors).forEach(
+        ([k, e]) => (errors[`${key}.${i}.${k}`] = e)
+      );
+    });
   });
   return errors;
 }

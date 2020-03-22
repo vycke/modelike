@@ -21,6 +21,11 @@ const typeRule = {
   type: 'string'
 };
 
+const regexpRule = {
+  type: 'string',
+  regexp: /test/g
+};
+
 const requiredRule = {
   type: 'string',
   required: true
@@ -55,6 +60,7 @@ const flatConfig = {
   rule1: withRulesRule,
   rule2: withRulesRule2,
   rule3: withRulesRule,
+  regexp: regexpRule,
   'nested.value': typeRule
 };
 
@@ -66,19 +72,10 @@ const flat = {
   rule1: 'test',
   rule2: '',
   rule3: '',
+  regexp: 'tast',
   nested: {
     value: 'test'
   }
-};
-
-const arrayRule = {
-  type: 'array',
-  required: true,
-  each: 'string'
-};
-
-const arrayObj = {
-  arr: ['test', 1]
 };
 
 const nestedArrayConfig = {
@@ -97,20 +94,11 @@ describe('validator', () => {
     expect(validator(flat, flatConfig)).toEqual({
       type2: 'type',
       nonexisting: 'required',
+      regexp: 'format',
       message: 'This is required',
       rule2: 'This cannot be default',
       rule3: 'other'
     });
-  });
-
-  it('array attribute validation', () => {
-    expect(validator({ arr: null }, { arr: arrayRule })).toEqual({
-      arr: 'required'
-    });
-    expect(validator(arrayObj, { arr: arrayRule })).toEqual({
-      arr: 'type'
-    });
-    expect(validator({ arr: ['name'] }, { arr: arrayRule })).toEqual({});
   });
 
   it('nested array validation', () => {
