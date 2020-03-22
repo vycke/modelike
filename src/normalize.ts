@@ -1,8 +1,7 @@
-type Primitive = string | number | boolean;
+import { TypedObject, Primitive } from './types';
 
-type Relations = {
-  [key: string]: Schema | Schema[];
-};
+type Relations = TypedObject<Schema | Schema[]>;
+type Result = TypedObject<Entity[]>;
 
 type Schema = {
   name: string;
@@ -12,10 +11,6 @@ type Schema = {
 type Entity = {
   id: number | string;
   [key: string]: undefined | Primitive | Primitive[] | Entity | Entity[];
-};
-
-type Result = {
-  [key: string]: Entity[];
 };
 
 // Helper function to create a schema required for normalization and denormalization

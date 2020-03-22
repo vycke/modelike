@@ -1,6 +1,6 @@
+import { Primitive } from './types';
 // Gets the nested value based on a tokenized string indicating the path of the
 // object.(e.g. get(obj, "user.info.address"))
-type Primitive = number | string | object | boolean;
 export default function(obj: object, path: string, def?: Primitive): Primitive {
   if (!path || path === '') return obj;
   const tokens = path.split('.');

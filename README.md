@@ -14,11 +14,11 @@ For object validation one defines rules for each property of the object. Combine
 
 ```ts
 type Rule = {
-  type: 'string' | 'boolean' | 'number' | 'array';
-  required?: boolean;
+  type: 'string' | 'boolean' | 'number' | 'array'; // type error
+  required?: boolean; // required error
   message?: 'my custom message';
-  regexp?: RegExp; // only available when type = 'string'
-  rule?: (value) => boolean;
+  regexp?: RegExp; // format error, only when type = 'string'
+  rule?: (value) => boolean; // other error
   each?: Schema; // required when type = 'array'
 };
 
@@ -35,7 +35,7 @@ An object can be validated by using the `validate` function of **schematiq**. It
 import { validate } from 'schematiq';
 
 const errors = validate(obj, schema);
-// { "nested.property": "type" | "required" | "other" | "my custom message" }
+// { "nested.property": "type" | "required" | "format" | "other" | "my custom message" }
 ```
 
 ## Object normalization and denormalization

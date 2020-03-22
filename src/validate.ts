@@ -1,8 +1,8 @@
 import get from './get';
+import { Primitive, TypedObject } from './types';
 
-type Primitive = number | string | boolean | object;
-type TypedObject<T> = { [key: string]: T };
 type Errors = TypedObject<string>;
+type Schema = TypedObject<Rule>;
 type Rule = {
   type: string;
   required?: boolean;
@@ -11,7 +11,6 @@ type Rule = {
   regexp?: RegExp;
   each?: Schema;
 };
-type Schema = TypedObject<Rule>;
 
 // helper that checks if a value exists (not null and not undefined)
 function exists(value: Primitive): boolean {

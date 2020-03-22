@@ -1,7 +1,7 @@
 import set from './set';
 import get from './get';
 
-export type Deduction = {
+type Deduction = {
   source: string | string[];
   target: string;
   reducer?: Function;
