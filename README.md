@@ -91,23 +91,6 @@ const output = normalize(input, userSchema);
 const input = denormalize(output, userSchema);
 ```
 
-## Object transformation
-
-Object transformation can be achieved by defining an array of deduction-rules. Each rule is defined by a `source` path (or an array of paths) and `target` path. You can use these to move values from one property, to another. Optionally, you can add a `reducer` function. This function takes all `source` values, executes the function and puts the result the defined `target` property. If the `source` consists of an array of objects, you can define a new set of rules for these objects in the `each` attribute. These rules will be applied first, before the result is stored in the `target` property.
-
-```js
-import { transform } from 'schematiq';
-
-type deduction = {
-  source: string | string[],
-  target: string,
-  reducer?: (source | sources) => value,
-  each?: deduction[]
-};
-
-const output = transform(input, myDeductions);
-```
-
 ## Object helpers
 
 In addition, some simple helpers around objects are also present.
