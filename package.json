@@ -25,7 +25,7 @@
     "deduction",
     "transformation"
   ],
-  "author": "Kevin Pennekamp <github@kevtiq.co>",
+  "author": "Kevin Pennekamp <github@kevtiq.dev>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kevtiq/schematiq/issues"
