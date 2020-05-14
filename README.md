@@ -18,7 +18,7 @@ type Rule = {
   required?: boolean; // required error
   message?: 'my custom message';
   regexp?: RegExp; // format error, only when type = 'string'
-  rule?: (value) => boolean; // other error
+  rule?: (value, obj) => boolean; // other error
   each?: Schema; // required when type = 'array'
 };
 

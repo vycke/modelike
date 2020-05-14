@@ -7,7 +7,7 @@ type Rule = {
   type: string;
   required?: boolean;
   message?: string;
-  rule?(v: Primitive): boolean;
+  rule?(v: Primitive, obj?: object): boolean;
   regexp?: RegExp;
   each?: Schema;
 };
@@ -22,7 +22,11 @@ function message(rule: Rule, def: string): string {
   return rule.message || def;
 }
 
-function evaluate(value: Primitive, rule: Rule): string | undefined {
+function evaluate(
+  value: Primitive,
+  rule: Rule,
+  obj?: object
+): string | undefined {
   let error: string | undefined;
   // property is required but does not exists
   if (rule.required && !exists(value)) error = message(rule, 'required');
@@ -41,7 +45,7 @@ function evaluate(value: Primitive, rule: Rule): string | undefined {
   )
     error = message(rule, 'format');
   // property does not apply to custom rule
-  else if (rule.rule && !rule.rule(value)) error = message(rule, 'other');
+  else if (rule.rule && !rule.rule(value, obj)) error = message(rule, 'other');
   return error;
 }
 
