@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import validator from '../src/';
-import { ErrorType, RuleType } from '../src/types';
+import { ErrorType, P, RuleType } from '../src/types';
 
-function isDefault(value): boolean {
+function isDefault(value: P): boolean {
   const type = typeof value;
 
   switch (type) {
