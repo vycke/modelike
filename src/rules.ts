@@ -23,6 +23,9 @@ export const requiredGuidRule: Rule = { ...guidRule, required: true };
 export const isoDateRule: Rule = {
   type: RuleType.string,
   custom: (v) =>
-    !(isNaN(new Date(v).getTime()) || new Date(v).getFullYear() < 1900),
+    !(
+      isNaN(new Date(v as string).getTime()) ||
+      new Date(v as string).getFullYear() < 1900
+    ),
 };
 export const requiredIsoDateRule: Rule = { ...isoDateRule, required: true };
