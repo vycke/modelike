@@ -1,10 +1,11 @@
-export type O = Record<string, unknown>;
+export type O = { [key: string]: unknown };
 export type P = number | string | boolean | O | null | undefined;
 export enum RuleType {
   string = 'string',
   number = 'number',
   boolean = 'boolean',
 }
+
 export type Rule = {
   type: RuleType;
   required?: boolean;
@@ -18,3 +19,5 @@ export enum ErrorType {
   format = 'format',
   custom = 'custom',
 }
+
+export type Errors = { [key: string]: ErrorType };

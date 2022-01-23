@@ -1,9 +1,9 @@
-# Schematiq - JavaScript object schematiqs
+# modelike - JavaScript object models
 
-![](https://github.com/crinklesio/schematiq/workflows/test/badge.svg)
-[![Node version](https://img.shields.io/npm/v/@crinkles/digl.svg?style=flat)](https://www.npmjs.com/package/@crinkles/digl)
-[![NPM Downloads](https://img.shields.io/npm/dm/@crinkles/digl.svg?style=flat)](https://www.npmjs.com/package/@crinkles/digl)
-[![Minified size](https://img.shields.io/bundlephobia/min/@crinkles/digl?label=minified)](https://www.npmjs.com/package/@crinkles/digl)
+![](https://github.com/kevtiq/modelike/workflows/test/badge.svg)
+[![Node version](https://img.shields.io/npm/v/modelike.svg?style=flat)](https://www.npmjs.com/package/modelike)
+[![NPM Downloads](https://img.shields.io/npm/dm/modelike.svg?style=flat)](https://www.npmjs.com/package/modelike)
+[![Minified size](https://img.shields.io/bundlephobia/min/modelike?label=minified)](https://www.npmjs.com/package/modelike)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A lightweight library that allows for object schema validation.
@@ -27,11 +27,22 @@ type Schema = {
 
 when
 
-An object can be validated by using the `validate` function of **schematiq**. It returns an object indicating which properties of the object have errors. It also indicates the type of error, unless you set a custom error message.
+An object can be validated by using the `validate` function of **modelike**. It returns an object indicating which properties of the object have errors. It also indicates the type of error, unless you set a custom error message.
 
 ```js
-import validator from 'schematiq';
+import { validator } from 'modelike';
 
 const errors = validator(obj, schema);
 // { "nested.property": "type" | "required" | "format" | "other" | "my custom message" }
+```
+
+## Object picking
+
+Use the models to change the shape of the object (basically removing properties).
+
+```js
+import { pick } from 'modelike';
+
+const _obj = pick(obj, schema);
+// new object with limited properties, based on schema
 ```

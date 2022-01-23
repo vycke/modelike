@@ -1,7 +1,7 @@
 {
-  "name": "@crinkles/schematiq",
-  "version": "1.0.0",
-  "description": "Object validation",
+  "name": "modelike",
+  "version": "0.1.0",
+  "description": "Object models validation and alteration",
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crinklesio/schematiq.git"
+    "url": "git+https://github.com/kevtiq/modelike.git"
   },
   "keywords": [
     "validation",
@@ -32,9 +32,9 @@
   "author": "Kevin Pennekamp <github@crinkles.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/crinklesio/schematiq/issues"
+    "url": "https://github.com/kevtiq/modelike/issues"
   },
-  "homepage": "https://github.com/crinklesio/schematiq#readme",
+  "homepage": "https://github.com/kevtiq/modelike#readme",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

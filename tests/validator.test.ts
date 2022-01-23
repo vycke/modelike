@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import validator from '../src/';
+import { validator } from '../src';
 import { ErrorType, P, RuleType } from '../src/types';
 
 function isDefault(value: P): boolean {
